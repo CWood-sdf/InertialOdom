@@ -44,7 +44,7 @@ int main() {
     while(1) {
 
         //Store the acceleration values in a PVector
-        PVector accel = PVector(Inertial.acceleration(vex::axisType::xaxis), Inertial.acceleration(vex::axisType::yaxis), Inertial.acceleration(vex::axisType::zaxis));
+        PVector accel = PVector(Inertial.acceleration(vex::axisType::xaxis), Inertial.acceleration(vex::axisType::yaxis), Inertial.acceleration(vex::axisType::zaxis) - 1);
         //Convert acceleration to in/s^2
         accel.mult(386.09);
         if(accelerations.size(2)){

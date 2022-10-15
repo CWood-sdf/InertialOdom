@@ -44,7 +44,7 @@ $(BUILD)/include/%: %
 vpath %.h include/
 
 # override proj name
-PROJECTLIB = lib46f
+PROJECTLIB = libinertial
 
 # build targets
 all: $(BUILD)/$(PROJECT).bin $(BUILD)/$(PROJECTLIB).a

@@ -23,9 +23,9 @@ $(BUILD)/$(PROJECT).bin: $(BUILD)/$(PROJECT).elf
 	$(Q)$(OBJCOPY) -O binary $(BUILD)/$(PROJECT).elf $(BUILD)/$(PROJECT).bin
 
 # create archive
-#$(BUILD)/$(PROJECTLIB).a: $(OBJA)
-#	$(ECHO) "Create archive $@"
-#	$(Q)$(ARCH) $(ARCH_FLAGS) $@ $^
+$(BUILD)/$(PROJECTLIB).a: $(OBJA)
+	$(ECHO) "Create archive $@"
+	$(Q)$(ARCH) $(ARCH_FLAGS) $@ $^
 
 # clean project
 clean:

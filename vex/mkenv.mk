@@ -104,11 +104,11 @@ LNK_FLAGS = --defsym _HEAP_SIZE=0x800000 -T "$(TOOLCHAIN)/$(PLATFORM)/lscript.ld
 
 
 # future statuc library
-PROJECTLIB = lib$(PROJECT)
+PROJECTLIB = libinertial
 ARCH_FLAGS = rcs
 
 # libraries
-LIBS =  --start-group -l46f -lv5rt -lstdc++ -lc -lm -lgcc --end-group
+LIBS =  --start-group -linertial -lv5rt -lstdc++ -lc -lm -lgcc --end-group
 
 # include file paths
 INC += $(addprefix -I, ${INC_F})
