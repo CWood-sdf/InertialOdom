@@ -7,16 +7,17 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 #include "vex.h"
-
+#include <iostream>
 using namespace vex;
 // A global instance of vex::brain used for printing to the V5 brain screen
 vex::brain       Brain;
 using namespace std;
-#define BASE <C:/Users/woodc/OneDrive/GitHub/Libs-Actual/Libs
+#define BASE <C:/Users/Student.EGR_03_LAPTOP.001/Documents/GitHub/Libs
+// #define BASE <C:/Users/woodc/OneDrive/GitHub/Libs-Actual/Libs
 /*<>*/
 #include BASE/basefile.h> //Libs
 // define your global instances of motors and other devices here
-inertial Inertial = inertial(PORT1);
+inertial Inertial = inertial(PORT6);
 PVector pos = PVector(0,0,0);
 PVector vel = PVector(0,0,0);
 int main() {
@@ -30,13 +31,13 @@ int main() {
             //Clear the screen
             Brain.Screen.clearScreen();
             //Print the position and velocity
-            Brain.Screen.printAt(1, 10, "Position: %f, %f, %f", pos.x, pos.y, pos.z);
-            Brain.Screen.printAt(1, 20, "Velocity: %f, %f, %f", vel.x, vel.y, vel.z);
+            Brain.Screen.printAt(1, 30, "Position: %f, %f, %f", pos.x, pos.y, pos.z);
+            Brain.Screen.printAt(1, 60, "Velocity: %f, %f, %f", vel.x, vel.y, vel.z);
             //Cout the position and velocity
             cout << "Position: " << pos.x << ", " << pos.y << ", " << pos.z << endl;
             cout << "Velocity: " << vel.x << ", " << vel.y << ", " << vel.z << endl;
             //Sleep for 10 milliseconds
-            this_thread::sleep_for(10);
+            this_thread::sleep_for(100);
             //Wait for brain reset
             Brain.Screen.waitForRefresh();
         }
@@ -44,7 +45,11 @@ int main() {
     while(1) {
 
         //Store the acceleration values in a PVector
-        PVector accel = PVector(Inertial.acceleration(vex::axisType::xaxis), Inertial.acceleration(vex::axisType::yaxis), Inertial.acceleration(vex::axisType::zaxis) - 1);
+        PVector accel = PVector(Inertial.acceleration(vex::axisType::xaxis), Inertial.acceleration(vex::axisType::yaxis) -1, Inertial.acceleration(vex::axisType::zaxis));
+        cout << VECT_OUT(accel) << endl;
+        if(accel.dist2D() < 0.01){
+            accel = PVector(0,0,0);
+        }
         //Convert acceleration to in/s^2
         accel.mult(386.09);
         if(accelerations.size(2)){
@@ -56,10 +61,10 @@ int main() {
             //Clear accelerations list
             accelerations.clear();
             //Add vel to the list of velocities
-            velocities.push_back(velEstimate);
+            velocities.pushBack(velEstimate);
         }
         //Add the acceleration to the list of accelerations
-        accelerations.push_back(accel);
+        accelerations.pushBack(accel);
 
         //Use simpsons rule to integrate the velocity
         if(velocities.size(3)){
@@ -71,14 +76,6 @@ int main() {
             velocities.popBase();
             velocities.popBase();
         }
-        //Print the position
-        Brain.Screen.printAt(0, 0, "X: %f", pos.x);
-        Brain.Screen.printAt(0, 20, "Y: %f", pos.y);
-        Brain.Screen.printAt(0, 40, "Z: %f", pos.z);
-        //Print velocity
-        Brain.Screen.printAt(0, 60, "VX: %f", vel.x);
-        Brain.Screen.printAt(0, 80, "VY: %f", vel.y);
-        Brain.Screen.printAt(0, 100, "VZ: %f", vel.z);
 
         
 
